@@ -45,7 +45,6 @@ export const BlockchainDataProvider = ({ children }) => {
 
         blocks.push(simplifiedBlock);
       }
-      console.log(blocks);
       setLatestBlocks(blocks);
     };
 

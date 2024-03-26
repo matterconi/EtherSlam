@@ -12,67 +12,43 @@ export const BlockchainDataProvider = ({ children }) => {
     const fetchBlocks = async () => {
       const provider = new JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/qPM6j1ZfMd658HQjSInxD4duTMuEjtoT');
       const currentBlockNumber = await provider.getBlockNumber();
-      const blocks = [];
 
+      const blocks = [];
       for (let i = 0; i < 5; i++) {
         const blockNumber = currentBlockNumber - i;
-        console.log(`Fetching block number: ${blockNumber}`); // 1. Log current block number
+        console.log(`Fetching block number: ${blockNumber}`);
         const block = await provider.getBlock(blockNumber, true);
-        console.log(block);
-        let totalFees = BigInt(0);
-        let j = 0;
-        for (const tx of block.prefetchedTransactions ) {
-          if (j > 3) break;
-          if (typeof tx.hash === 'string' && tx.hash) {
-              console.log(`Processing transaction hash: ${tx.hash}`); // 2. Log each transaction hash
-              const receipt = await provider.getTransactionReceipt(tx.hash);
-  
-              let txFee;
-              if (tx.type === 2) { // For EIP-1559 transactions
-                  const baseFeePerGas = BigInt(block.baseFeePerGas.toString());
-                  const maxFeePerGas = BigInt(tx.maxFeePerGas.toString());
-                  const maxPriorityFeePerGas = BigInt(tx.maxPriorityFeePerGas.toString());
-                  const gasUsed = BigInt(receipt.gasUsed.toString());
-  
-                  console.log(`Transaction type: EIP-1559, baseFeePerGas: ${baseFeePerGas}, maxFeePerGas: ${maxFeePerGas}, maxPriorityFeePerGas: ${maxPriorityFeePerGas}, gasUsed: ${gasUsed}`); // 3. Log transaction details
-  
-                  const effectiveGasPrice = baseFeePerGas + maxPriorityFeePerGas > maxFeePerGas ? maxFeePerGas : baseFeePerGas + maxPriorityFeePerGas;
-                  txFee = gasUsed * effectiveGasPrice;
-              } else { // For legacy transactions
-                  const gasPrice = BigInt(tx.gasPrice.toString());
-                  console.log(`Transaction type: Legacy, gasPrice: ${gasPrice}, gasUsed: ${receipt.gasUsed}`); // 3. Log transaction details
-                  txFee = BigInt(receipt.gasUsed.toString()) * gasPrice;
-              }
-  
-              console.log(`Transaction fee: ${txFee}`); // 4. Log calculated txFee
-              totalFees += txFee;
-          }
-          j++;
-        }
-    
+        console.log("bloks:", block);
+        // Use the block's gasUsed and baseFeePerGas for total fees calculation
+        const gasUsed = BigInt(block.gasUsed.toString());
+        const baseFeePerGas = block.baseFeePerGas ? BigInt(block.baseFeePerGas.toString()) : BigInt(0);
+        console.log(`Gas used for block ${blockNumber}: ${gasUsed}`);
+        console.log(`Base fee per gas for block ${blockNumber}: ${baseFeePerGas}`);
+        const totalFees = gasUsed * baseFeePerGas;
+
         console.log(`Total fees for block ${blockNumber}: ${ethers.formatEther(totalFees)}`);
-  
+
         const simplifiedBlock = {
           number: block.number,
           hash: block.hash,
           miner: block.miner,
           parentHash: block.parentHash,
           timestamp: block.timestamp,
-          totalFees: ethers.formatEther(totalFees), // Convert the total fees to Ether and include it in the block data
+          totalFees: ethers.formatEther(totalFees), // Convert the total fees to Ether
           transactions: block.transactions.map(tx => ({
             hash: tx.hash,
             from: tx.from,
             to: tx.to,
-            value: tx.value ? ethers.utils.formatEther(tx.value) : "0",
+            value: tx.value ? ethers.formatEther(tx.value) : "0",
           })),
         };
-  
+
         blocks.push(simplifiedBlock);
       }
       console.log(blocks);
       setLatestBlocks(blocks);
     };
-  
+
     fetchBlocks().catch(console.error);
   }, []);
 
@@ -86,4 +62,3 @@ export const BlockchainDataProvider = ({ children }) => {
 BlockchainDataProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-

@@ -23,6 +23,14 @@ const LatestBlocks = () => {
       ) : (
         <div>Loading...</div>
       )}
+      <div className="w-full flex justify-center mt-4"> {/* Wrapper to center the button */}
+        <button 
+          className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors"
+          onClick={() => {/* Your navigation or action for View All */}}
+        >
+          View All
+        </button>
+      </div>
     </div>
   );
 };

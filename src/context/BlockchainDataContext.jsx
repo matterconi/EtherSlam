@@ -16,17 +16,11 @@ export const BlockchainDataProvider = ({ children }) => {
       const blocks = [];
       for (let i = 0; i < 5; i++) {
         const blockNumber = currentBlockNumber - i;
-        console.log(`Fetching block number: ${blockNumber}`);
         const block = await provider.getBlock(blockNumber, true);
-        console.log("bloks:", block);
         // Use the block's gasUsed and baseFeePerGas for total fees calculation
         const gasUsed = BigInt(block.gasUsed.toString());
         const baseFeePerGas = block.baseFeePerGas ? BigInt(block.baseFeePerGas.toString()) : BigInt(0);
-        console.log(`Gas used for block ${blockNumber}: ${gasUsed}`);
-        console.log(`Base fee per gas for block ${blockNumber}: ${baseFeePerGas}`);
         const totalFees = gasUsed * baseFeePerGas;
-
-        console.log(`Total fees for block ${blockNumber}: ${ethers.formatEther(totalFees)}`);
 
         const simplifiedBlock = {
           number: block.number,
@@ -35,12 +29,7 @@ export const BlockchainDataProvider = ({ children }) => {
           parentHash: block.parentHash,
           timestamp: block.timestamp,
           totalFees: ethers.formatEther(totalFees), // Convert the total fees to Ether
-          transactions: block.transactions.map(tx => ({
-            hash: tx.hash,
-            from: tx.from,
-            to: tx.to,
-            value: tx.value ? ethers.formatEther(tx.value) : "0",
-          })),
+          transactions: block.prefetchedTransactions
         };
 
         blocks.push(simplifiedBlock);

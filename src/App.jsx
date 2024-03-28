@@ -1,24 +1,29 @@
-import { BlockchainDataProvider } from './context/BlockchainDataContext';
-import Navbar from "./components/Navbar";
-import SearchBar from "./components/SearchBar";
-import LatestBlocks from "./components/LatestBlocks";
-import LatestTransactions from "./components/LatestTransactions";
-import Dashboard from "./components/Dashboard";
-import Footer from "./components/Footer";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BlockchainDataProvider } from './context/BlockchainDataContext'; // Adjust the path as needed
+import Navbar from './components/shared/Navbar';
+import Footer from './components/shared/Footer';
+import HomePage from './pages/HomePage';
+import TokensPage from './pages/TokensPage';
+import NftsPage from './pages/NftsPage';
+import TransactionPage from './pages/TransactionPage';
+
 
 function App() {
   return (
     <BlockchainDataProvider>
-      <div  className="bg-custom-gradient min-h-screen">
-        <Navbar />
-        <SearchBar />
-        <Dashboard />
-        <div className='mx-16 flex justify-between gap-4 max-lg:flex-col'>
-          <LatestBlocks />
-          <LatestTransactions />
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/tokens" element={<TokensPage />} />
+            <Route path="/nfts" element={<NftsPage />} />
+            <Route path="/transaction/:transactionHash" element={<TransactionPage />} />
+            {/* Add more routes as needed */}
+          </Routes>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </Router>
     </BlockchainDataProvider>
   );
 }

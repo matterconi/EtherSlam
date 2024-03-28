@@ -1,4 +1,4 @@
 import { useContext } from 'react';
-import { BlockchainDataContext } from '../context/BlockchainDataContext';
+import { BlockchainDataContext } from './BlockchainDataContext';
 
 export const useBlockchainData = () => useContext(BlockchainDataContext);

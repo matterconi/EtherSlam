@@ -1,8 +1,8 @@
-import React from 'react'
+import AllNfts from '../components/static/AllNfts';
 
 const NftsPage = () => {
   return (
-    <div>NftsPage</div>
+    <AllNfts />
   )
 }
 

@@ -1,8 +1,8 @@
-import React from 'react'
+import AllTokens from '../components/static/AllTokens'
 
 const TokensPage = () => {
   return (
-    <div>TokensPage</div>
+    <AllTokens />
   )
 }
 

@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
+// Helper function to format numbers in billions
+const formatBillions = (num) => {
+  return `${(num / 1e6).toFixed(2)}M`;
+};
+
 const AllNFTs = () => {
   const [nftDetails, setNftDetails] = useState([]);
-  const apiKey = "CG-KTHBcz6hCUuQj4KiS6uWaB3W"; // Assuming an API key is needed
+  const apiKey = "CG-KTHBcz6hCUuQj4KiS6uWaB3W";
 
   useEffect(() => {
     const fetchNFTs = async () => {
-      // Fetch the list of NFTs
       const listUrl = `https://api.coingecko.com/api/v3/nfts/list?x_cg_demo_api_key=${apiKey}`;
       try {
-        const listResponse = await fetch(listUrl, {
-          headers: {
-            'x-cg-demo-api-key': apiKey,
-          },
-        });
+        const listResponse = await fetch(listUrl);
         if (!listResponse.ok) throw new Error('Failed to fetch NFT list');
         const data = await listResponse.json();
-        // Assume the response includes a list of NFTs and we take the first 10
-        const first10NFTs = data.slice(0, 10);
-
-        // Fetch details for each NFT
-        const detailsPromises = first10NFTs.map(async (nft) => {
+        const first20NFTs = data.slice(0, 24);
+        const detailsPromises = first20NFTs.map(async (nft) => {
           const detailUrl = `https://api.coingecko.com/api/v3/nfts/${nft.id}?x_cg_demo_api_key=${apiKey}`;
-          const detailResponse = await fetch(detailUrl, {
-            headers: {
-              'x-cg-demo-api-key': apiKey,
-            },
-          });
+          const detailResponse = await fetch(detailUrl);
           if (!detailResponse.ok) throw new Error(`Failed to fetch details for NFT ${nft.id}`);
           return detailResponse.json();
         });
 
-        // Resolve all promises
         const details = await Promise.all(detailsPromises);
         console.log(details);
         setNftDetails(details);
@@ -41,18 +33,24 @@ const AllNFTs = () => {
     };
 
     fetchNFTs();
-  }, [apiKey]); // Dependency on the API key if necessary
+  }, [apiKey]);
 
   return (
-    <div className="bg-white rounded-xl p-4 mx-16 my-4">
-      <h2 className="text-2xl font-semibold mb-4">All NFTs</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {nftDetails.map((nft) => (
-          <div key={nft.id} className="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
-            <img src={nft.image.small} alt={nft.name} className="w-20 h-20" />
-            <h3 className="mt-2 font-bold">{nft.name}</h3>
-            <p>Floor Price: {nft.floor_price.usd} USD</p>
-            <p>Market Cap: {nft.market_cap.usd} USD</p>
+    <div className="bg-white rounded-xl p-4 mx-auto my-4">
+      <h2 className="text-2xl text-center font-semibold my-8">Trending NFTs</h2>
+      {/* NFT Rows/Cards */}
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 lg:gap-4 max-sm:text-center">
+        {nftDetails.map((nft, index) => (
+          <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4 md:mb-0">
+            <div className="flex items-center space-x-2 mb-4 max-sm:justify-center">
+              {nft.image.small !== "missing_small.png" && <img src={nft.image.small} alt={nft.name} className="w-10 h-10 mr-2 rounded-full" />}
+              <span className="font-bold">{nft.name}</span>
+            </div>
+            <div className="flex flex-col space-y-2">
+              <span>Floor Price: {nft.floor_price ? `$${nft.floor_price.usd.toLocaleString()}` : 'N/A'}</span>
+              <span>Market Cap: {nft.market_cap ? `$${formatBillions(nft.market_cap.usd)}` : 'N/A'}</span>
+              <span>Unique owners: {nft.number_of_unique_addresses}</span>
+            </div>
           </div>
         ))}
       </div>

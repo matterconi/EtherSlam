@@ -6,13 +6,15 @@ import { JsonRpcProvider } from 'ethers/providers'; // Adjust import for ethers 
 export const BlockchainDataContext = createContext();
 
 export const BlockchainDataProvider = ({ children }) => {
+  const [latestBlock, setLatestBlock] = useState(null); // Change to [latestBlocks, setLatestBlocks
   const [latestBlocks, setLatestBlocks] = useState(null);
 
   useEffect(() => {
     const fetchBlocks = async () => {
       const provider = new JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/qPM6j1ZfMd658HQjSInxD4duTMuEjtoT');
       const currentBlockNumber = await provider.getBlockNumber();
-
+      const block = await provider.getBlock(currentBlockNumber, true);
+      setLatestBlock(block);
       const blocks = [];
       for (let i = 0; i < 5; i++) {
         const blockNumber = currentBlockNumber - i;
@@ -41,7 +43,7 @@ export const BlockchainDataProvider = ({ children }) => {
   }, []);
 
   return (
-    <BlockchainDataContext.Provider value={{ latestBlocks }}>
+    <BlockchainDataContext.Provider value={{ latestBlock, latestBlocks }}>
       {children}
     </BlockchainDataContext.Provider>
   );

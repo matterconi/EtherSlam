@@ -43,9 +43,9 @@ const BuiltWith = () => {
                 }
                 `}
             </style>
-            <div className="bg-white rounded-xl p-6 md:p-8 mx-4 md:mx-16 my-8 md:mb-16">
+            <div className="bg-white rounded-xl p-6 md:p-8  my-8 md:mb-16">
                 <h2 className="text-xl md:text-2xl font-semibold mb-6 md:mb-8 text-center">Built With</h2>
-                <div className="flex flex-wrap justify-center gap-x-16 gap-y-8 mt-8">
+                <div className="flex flex-wrap justify-center gap-x-8 gap-y-8 mt-8">
                     <div className="flex items-center gap-2">
                         <SiReact size="24" className="text-blue-600 rotate mr-2" />
                         <span className="textFloat">React</span>

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'; // Ensure correct import
 import { useBlockchainData } from '../../../context/useBlockchainData'; // Make sure this path is correct
 import { CiViewList } from "react-icons/ci";
 import TransactionCard from './TransactionCard'; // Ensure correct path
@@ -6,6 +7,7 @@ import { ethers } from 'ethers'; // Adjust import for ethers v5
 // Mock transaction data for demonstration
 
 const LatestTransactions = () => {
+  const navigate = useNavigate(); // Ensure useNavigate is correctly imported
   const { latestBlocks } = useBlockchainData(); // Assuming useBlockchainData correctly fetches and sets latestBlocks
 
   // Ensure latestBlocks is not null and has data before trying to access it
@@ -40,7 +42,7 @@ const LatestTransactions = () => {
       <div className="w-full flex justify-center mt-4"> {/* Wrapper to center the button */}
         <button 
           className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors"
-          onClick={() => {/* Your navigation or action for View All */}}
+          onClick={() => navigate('/transactions')}
         >
           View All Transactions
         </button>

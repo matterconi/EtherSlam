@@ -76,7 +76,7 @@ const AddressPage = () => {
 
   return (
     <div>
-      <DisplayAddress addressData={addressData} />
+      <DisplayAddress addressData={addressData} addressHash={addressHash}/>
     </div>
   );
 };

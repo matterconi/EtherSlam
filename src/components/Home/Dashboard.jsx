@@ -62,7 +62,7 @@ const Dashboard = () => {
     <div className="bg-white rounded-xl p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-16">
       <DashboardCard title="Ether Price" value={ethData.etherPrice} icon={<FaEthereum size="24" className="flex-shrink-0"/>} className="sm:border-r max-lg:border-b"/>
       <DashboardCard title="Market Cap" value={ethData.marketCap} icon={<MdOutlineAttachMoney size="30" className="flex-shrink-0"/>} className="lg:border-r max-lg:border-b" />
-      <DashboardCard title="24h Change" value={ethData.change24h} icon={<FaExchangeAlt size="24" className="flex-shrink-0"/>} className="sm:border-r max-sm:border-b" conditionalValueColor={Number(ethData.change24h) > 0 ? "text-green-500" : "text-red-500"} sign={Number(ethData.change24h) > 0 ? "+" : "-"}/>
+      <DashboardCard title="24h Change" value={ethData.change24h} icon={<FaExchangeAlt size="24" className="flex-shrink-0"/>} className="sm:border-r max-sm:border-b" conditionalValueColor={Number(ethData.change24h) > 0 ? "text-green-500" : "text-red-500"} sign={Number(ethData.change24h) > 0 ? "+" : ""}/>
       <DashboardCard title="24H Volume" value={ethData.volume24h} icon={<FaRegChartBar size="24" className="flex-shrink-0"/>} />
     </div>
   );

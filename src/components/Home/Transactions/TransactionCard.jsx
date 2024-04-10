@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
@@ -40,7 +39,7 @@ const TransactionCard = ({ index, icon, hash, timestamp, from, to, value }) => {
       </div>
   
       <div className='flex md:flex-row justify-between max-sm:justify-around items-center w-full space-x-2 max-sm:mt-4'>
-        <div className="relative sm:left-[-15px] md:left-[0] lg:mx-4">
+        <div className="relative sm:left-[5px] md:left-[-20px] lg:left-[10px] lg:mx-4">
           <p className='text-sm whitespace-nowrap cursor-pointer' onClick={() => handleNavigate(`/address/${from}`)}>
             From: <span className='cursor-pointer text-blue-600'>{from.slice(0, 6)}...{from.slice(from.length - 6)}</span>
           </p>
@@ -49,7 +48,7 @@ const TransactionCard = ({ index, icon, hash, timestamp, from, to, value }) => {
           </p>
         </div>
   
-        <div className="md:ml-4 border rounded px-3 py-1">
+        <div className="md:ml-4 border rounded px-3 py-1 min-w-[90px]">
           <p className='text-xs font-semibold'>Amount</p>
           <p className='text-sm'>{`${value}`.slice(0, 5)} ETH</p>
         </div>

@@ -37,7 +37,7 @@ const AllTokens = () => {
               <span className="font-bold">{token.name}</span>
             </div>
             <div className="flex flex-col space-y-2">
-              <span>Price: ${token.current_price.toLocaleString()}</span>
+              <span>Price: ${token.current_price}</span>
               <span>Market Cap: ${formatBillions(token.market_cap)}</span>
               <span>Volume (24h): ${formatBillions(token.total_volume)}</span>
             </div>

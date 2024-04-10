@@ -44,14 +44,14 @@ const BlockCard = ({ icon, blockNumber, transactions, totalFees, createdAgo, fee
       </div>
   
       <div className='flex md:flex-row justify-between max-sm:justify-around items-center w-full space-x-2 max-sm:mt-4'>
-        <div className="lg:mx-4">
+        <div className="relative sm:left-[5px] md:left-[-20px] lg:left-[10px] lg:mx-4">
           <p className='text-sm whitespace-nowrap cursor-pointer' onClick={navigateToMiner}>
             Miner: <span className='cursor-pointer text-blue-600'>{feeRecipient.slice(0, 6)}...{feeRecipient.slice(feeRecipient.length - 6)}</span>
           </p>
           <p className='text-sm'>Transactions: {transactions}</p>
         </div>
   
-        <div className="md:ml-4 border rounded px-3 py-1">
+        <div className="md:ml-4 border rounded px-3 py-1 min-w-[90px]">
           <p className='text-xs font-semibold'>Fees</p>
           <p className='text-sm'>{`${totalFees}`.slice(0, 5)} Eth</p>
         </div>

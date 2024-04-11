@@ -23,7 +23,7 @@ const formatTimestamp = (timestamp) => {
   }
 };
 
-const DisplayAllBlocks = ({ blocks }) => {
+const DisplayAllBlocks = ({ blocks, handlePreviousPage, handleNextPage, page }) => {
   return (
     <>
       <div className="p-4 bg-white shadow-lg rounded-lg mb-8">
@@ -55,6 +55,10 @@ const DisplayAllBlocks = ({ blocks }) => {
               <div className="px-4 py-2">{block.transactionsLength}</div>
             </div>
           ))}
+          <div className='flex justify-center space-x-8 p-4'>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handlePreviousPage} >Previous</button>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handleNextPage} disabled={page === 0}>Next</button>
+          </div>
         </div>
 
         {/* Responsive Design for smaller screens */}
@@ -76,6 +80,10 @@ const DisplayAllBlocks = ({ blocks }) => {
               </div>
             </div>
           ))}
+          <div className='flex justify-center space-x-8 p-4'>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handlePreviousPage}>Previous</button>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handleNextPage}>Next</button>
+          </div>
         </div>
       </div>
     </>

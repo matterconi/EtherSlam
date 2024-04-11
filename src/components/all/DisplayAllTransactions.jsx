@@ -26,7 +26,7 @@ const formatTimestamp = (timestamp) => {
   }
 };
 
-const DisplayAllTransactions = ({ transactions, timestamp }) => {
+const DisplayAllTransactions = ({ transactions, timestamp, handlePreviousPage, handleNextPage, page, isLimit }) => {
   return (
     <>
       <div className="p-4 bg-white shadow-lg rounded-lg mb-8">
@@ -62,6 +62,10 @@ const DisplayAllTransactions = ({ transactions, timestamp }) => {
               </div>
             </div>
           ))}
+          <div className='flex justify-center space-x-8 p-4'>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handlePreviousPage} disabled={page === 1}>Previous</button>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handleNextPage} disabled={isLimit}>Next</button>
+          </div>
         </div>
 
         {/* For smaller screens */}
@@ -90,6 +94,10 @@ const DisplayAllTransactions = ({ transactions, timestamp }) => {
               </div>
             </div>
           ))}
+          <div className='flex justify-center space-x-8 p-4'>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handlePreviousPage} disabled={page === 1}>Previous</button>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handleNextPage}>Next</button>
+          </div>
         </div>
       </div>
     </>

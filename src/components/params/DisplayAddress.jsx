@@ -9,12 +9,12 @@ const DisplayAddress = ({ addressData, addressHash }) => {
   return (
     <>
       <div className="p-4 bg-white shadow-lg rounded-lg mb-8">
-        <h2 className="text-xl mb-4">Address {addressHash}</h2>
-        <p>Type: {addressType}</p>
-        <p>ETH Balance: {ethBalance ? `${ethBalance} ETH` : "Loading..."}</p>
+        <h2 className=" mb-4"><span className='text-lg font-semibold'>Address</span> {addressHash}</h2>
+        <p className='mb-2'><span className='font-semibold'>Type:</span> {addressType}</p>
+        <p className='mb-2'><span className='font-semibold'>ETH Balance: </span>{ethBalance ? `${ethBalance} ETH` : "Loading..."}</p>
         
         {/* Transactions Section */}
-        <h3 className="mt-4 mb-2 text-lg ">Transactions in the last 100000 blocks</h3>
+        <h3 className="mt-4 mb-2 font-semibold ">Latest Transactions</h3>
         {transactions && transactions.length > 0 ? (
           <>
           <div className="max-sm:hidden mt-4">
@@ -29,7 +29,7 @@ const DisplayAddress = ({ addressData, addressHash }) => {
             </div>
             {/* Grid Rows */}
             {transactions.map((txn, index) => (
-              <div key={index} className={`grid grid-cols-6 text-sm items-center ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b`}>
+              <div key={index} className={`grid grid-cols-6 text-sm items-center ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
                 <div className="px-4 py-2">
                   <Link to={`/tx/${txn.hash}`} className="text-blue-500">{formatHash(txn.hash)}</Link>
                 </div>

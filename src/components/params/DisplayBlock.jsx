@@ -40,8 +40,8 @@ const DisplayBlock = ({ block }) => {
   return (
     <>
       <div className="flex flex-col bg-white mb-16 border border-gray-200 px-4 py-8 rounded-md shadow-xl">
-        <h3 className="text-lg font-semibold mb-8">Block Overview</h3>
-        <div className="flex flex-col gap-4">
+        <h3 className="text-lg font-semibold mb-8">Block #{block.number}</h3>
+        <div className="flex flex-col gap-4 break-all">
           {/* Block details */}
           <div className="flex justify-start items-center">
             <Tooltip info="The unique identifier of the block.">Block Hash:</Tooltip>
@@ -76,6 +76,12 @@ const DisplayBlock = ({ block }) => {
             <span className="ml-2">{block.parentHash}</span>
           </div>
         </div>
+        <button 
+          className="px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors w-[300px] mx-auto mt-8"
+          onClick={() => navigate(`/block-transactions/${block.number}`)} // Use navigate for navigation
+        >
+          View All Block's Transactions
+        </button>
       </div>
       
       {/* Educational Section */}

@@ -23,7 +23,7 @@ const formatTimestamp = (timestamp) => {
   }
 };
 
-const DisplayAllAddressTransactions = ({ transactions }) => {
+const DisplayAllAddressTransactions = ({ transactions, handlePreviousPage, handleNextPage, page }) => {
   return (
     <>
       <div className="p-4 bg-white shadow-lg rounded-lg mb-8">
@@ -57,6 +57,10 @@ const DisplayAllAddressTransactions = ({ transactions }) => {
               </div>
             </div>
           ))}
+          <div className='flex justify-center space-x-8 p-4'>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handlePreviousPage} disabled={page === 1}>Previous</button>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handleNextPage}>Next</button>
+          </div>
         </div>
 
         {/* For smaller screens */}
@@ -81,6 +85,10 @@ const DisplayAllAddressTransactions = ({ transactions }) => {
               </div>
             </div>
           ))}
+          <div className='flex flex-row items-center space-y-4'>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handlePreviousPage} disabled={page === 1}>Previous</button>
+            <button className="my-2 px-4 py-2 border border-gray-400 text-gray-800 font-semibold rounded hover:border-gray-500 hover:text-gray-900 transition-colors" onClick={handleNextPage}>Next</button>
+          </div>
         </div>
       </div>
     </>
@@ -89,6 +97,9 @@ const DisplayAllAddressTransactions = ({ transactions }) => {
 
 DisplayAllAddressTransactions.propTypes = {
   transactions: PropTypes.array.isRequired,
+  handlePreviousPage: PropTypes.func.isRequired,
+  handleNextPage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
 };
 
 export default DisplayAllAddressTransactions;

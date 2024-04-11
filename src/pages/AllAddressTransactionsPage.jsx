@@ -3,35 +3,32 @@ import { useParams } from 'react-router-dom';
 import DisplayAllAddressTransactions from '../components/all/DisplayAllAddressTransactions';
 
 const AllAddressTransactionsPage = () => {
-  const { addressHash } = useParams(); // Extracting address hash from URL
-  console.log('Address Hash:', addressHash); // Log the address hash obtained from URL
-
+  const { addressHash } = useParams();
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [page, setPage] = useState(1); // Pagination state
 
   useEffect(() => {
-    console.log('Effect running'); // Log when the effect runs
-
-    const apiKey = "V38ISFW6218A75EA8JDCV7J3ZS5K4TI977"; // Make sure to use your actual Etherscan API key
-    const startBlock = 0; // Example: You might want to adjust this based on your needs
-    const endBlock = 'latest';
-
     const fetchTransactions = async () => {
-      const url = `https://api.etherscan.io/api?module=account&action=txlist&address=${addressHash}&startblock=${startBlock}&endblock=${endBlock}&sort=asc&apikey=${apiKey}`;
-      console.log('Fetching Transactions from:', url); // Log the API URL
+      const apiKey = "V38ISFW6218A75EA8JDCV7J3ZS5K4TI977";
+      const pageSize = 25; // Define the number of transactions per page
+      const startBlock = 'latest'; // Start fetching from the latest block
+      // Assuming the API supports page and offset parameters
+      const url = `https://api.etherscan.io/api?module=account&action=txlist&address=${addressHash}&startblock=${startBlock}&page=${page}&offset=${pageSize}&sort=desc&apikey=${apiKey}`;
 
       setLoading(true);
       try {
         const response = await fetch(url);
         const data = await response.json();
-        console.log('Fetch response:', data); // Log the response from the fetch call
-
         if (data.status === "1") {
-          setTransactions(data.result);
-          console.log('Transactions set:', data.result); // Log the transactions data
+          if (page > 1) {
+            setTransactions(prev => [...prev, ...data.result]);
+          } else {
+            setTransactions(data.result);
+          }
         } else {
-          throw new Error(data.message); // Handle API errors (e.g., "NOTOK" responses)
+          throw new Error(data.message);
         }
       } catch (err) {
         console.error('Error fetching transactions:', err);
@@ -41,23 +38,18 @@ const AllAddressTransactionsPage = () => {
       }
     };
 
-    if (addressHash) {
-      fetchTransactions();
-    }
-  }, [addressHash]);
+    fetchTransactions();
+  }, [addressHash, page]);
 
-  if (loading) {
-    console.log('Loading...'); // Log when component is in loading state
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    console.log('Error:', error); // Log any errors
-    return <div>Error: {error}</div>;
-  }
+  const handleNextPage = () => setPage(prev => prev + 1);
+  const handlePreviousPage = () => setPage(prev => Math.max(1, prev - 1));
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      <DisplayAllAddressTransactions transactions={transactions} />
+      <DisplayAllAddressTransactions transactions={transactions.slice((page - 1) * 25, page * 25)} handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page} />
     </div>
   );
 };

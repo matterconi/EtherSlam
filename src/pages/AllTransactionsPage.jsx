@@ -61,15 +61,7 @@ const AllTransactionPage = () => {
 
   return (
     <div>
-      <DisplayAllTransactions transactions={transactions.slice(currentPage * transactionsPerPage, (currentPage + 1) * transactionsPerPage)} timestamp={timestamp}/>
-      <div className="flex justify-center space-x-4 mt-4">
-        <button onClick={handlePreviousPage} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled={currentPage === 0}>
-          Newer
-        </button>
-        <button onClick={handleNextPage} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Older
-        </button>
-      </div>
+      <DisplayAllTransactions transactions={transactions.slice(currentPage * transactionsPerPage, (currentPage + 1) * transactionsPerPage)} timestamp={timestamp} handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={currentPage}/>
     </div>
   );
 };

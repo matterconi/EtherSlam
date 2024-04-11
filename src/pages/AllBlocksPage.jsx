@@ -28,47 +28,33 @@ const AllBlocksPage = () => {
     }
   }, [latestBlock]);
 
-  const handleNext = async () => {
+  const handleNextPage = async () => {
     if (page > 0) {
       // Assuming blocks are sorted newest to oldest
+      console.log(page)
       const newStartBlock = blocks[0].number + 25;
+      console.log(newStartBlock)
       await fetchAndSetBlocks(newStartBlock);
-      setPage(page - 1);
+      setPage((prevPage) => Math.max(0, prevPage - 1));;
     }
   };
 
-  const handlePrevious = async () => {
+  const handlePreviousPage = async () => {
     // Fetch older blocks
+    console.log(page)
+    
     const newStartBlock = blocks[0].number - 25;
+    console.log(newStartBlock)
     await fetchAndSetBlocks(newStartBlock);
-    setPage(page + 1);
+    setPage((prevPage) => prevPage + 1);
   };
 
-  const renderNavigationButtons = () => (
-    <div className="flex justify-between">
-      <button
-        onClick={handleNext}
-        className={`bg-blue-500 text-white p-2 rounded ${ page === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-        disabled={page < 1}
-        title={ page < 1 ? 'You are viewing the most recent blocks' : 'Go to more recent blocks'}>
-        Next
-      </button>
-      <button
-        onClick={handlePrevious}
-        className={`bg-blue-500 text-white p-2 rounded ${blocks.length < blocksPerPage ? 'opacity-50 cursor-not-allowed' : ''}`}
-        disabled={blocks.length < blocksPerPage}
-        title={blocks.length < blocksPerPage ? 'No older blocks to view' : 'Go to older blocks'}>
-        Previous
-      </button>
-    </div>
-  );
-
+  
   if (loading) return <div>Loading...</div>;
 
   return (
     <div>
-      <DisplayAllBlocks blocks={blocks} />
-      {renderNavigationButtons()}
+      <DisplayAllBlocks blocks={blocks} handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={page}/>
     </div>
   );
 };

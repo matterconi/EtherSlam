@@ -11,6 +11,7 @@ import AddressPage from './pages/AddressPage';
 import AllBlocksPage from './pages/AllBlocksPage'; // Import the AllBlocksPage component
 import AllTransactionsPage from './pages/AllTransactionsPage'; // Import the AllTransactionsPage component
 import AllAddressTransactionsPage from './pages/AllAddressTransactionsPage'; // Import the AllAddressTransactionsPage component
+import AllBlocksTransactionsPage from './pages/AllBlockTransactionsPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/blocks" element={<AllBlocksPage />} />
               <Route path="/transactions" element={<AllTransactionsPage />} />
               <Route path="/address-transactions/:addressHash" element={<AllAddressTransactionsPage />} />
+              <Route path="/block-transactions/:blockNumber" element={<AllBlocksTransactionsPage />} />
             </Routes>
           </div>
           <Footer />

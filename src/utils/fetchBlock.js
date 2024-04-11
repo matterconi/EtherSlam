@@ -20,5 +20,6 @@ export const fetchBlock = async (blockNumber) => {
     totalFees: ethers.formatEther(totalFees),
     baseFeePerGas: ethers.formatEther(block.baseFeePerGas),
     transactions: block.length,
+    transactionsArray: block.prefetchedTransactions,
   };
 };

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DisplayAllTransactions from '../components/all/DisplayAllTransactions';
+import MockInterface from '../components/shared/MockInterface';
 import { fetchBlock } from '../utils/fetchBlock';
 
 const AllBlocksTransactionsPage = () => {
@@ -42,7 +43,7 @@ const AllBlocksTransactionsPage = () => {
   const totalPages = Math.ceil(totalTransactions / transactionsPerPage);
   const isLimit = currentPage === totalPages - 1;
 
-  if (loading) return <div>Loading transactions...</div>;
+  if (loading) return <MockInterface />;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -50,6 +51,7 @@ const AllBlocksTransactionsPage = () => {
       <DisplayAllTransactions
         transactions={transactions.slice(currentPage * transactionsPerPage, (currentPage + 1) * transactionsPerPage)}
         timestamp={timestamp} handlePreviousPage={handlePreviousPage} handleNextPage={handleNextPage} page={currentPage} totalPages={totalPages} isLimit={isLimit}
+        isBlock={true} transactionsNumber={totalTransactions}
       />
     </div>
   );

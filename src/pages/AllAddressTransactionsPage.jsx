@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DisplayAllAddressTransactions from '../components/all/DisplayAllAddressTransactions';
+import MockInterface from '../components/shared/MockInterface';
 
 const AllAddressTransactionsPage = () => {
   const { addressHash } = useParams();
@@ -44,7 +45,7 @@ const AllAddressTransactionsPage = () => {
   const handleNextPage = () => setPage(prev => prev + 1);
   const handlePreviousPage = () => setPage(prev => Math.max(1, prev - 1));
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <MockInterface />;
   if (error) return <div>Error: {error}</div>;
 
   return (

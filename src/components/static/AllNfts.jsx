@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import MockInterface from "../shared/MockInterface";
 
 // Helper function to format numbers in billions
 const formatBillions = (num) => {
@@ -7,10 +8,12 @@ const formatBillions = (num) => {
 
 const AllNFTs = () => {
   const [nftDetails, setNftDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);  // State to track loading status
   const apiKey = "CG-KTHBcz6hCUuQj4KiS6uWaB3W";
 
   useEffect(() => {
     const fetchNFTs = async () => {
+      setIsLoading(true); // Set loading to true when the fetch starts
       const listUrl = `https://api.coingecko.com/api/v3/nfts/list?x_cg_demo_api_key=${apiKey}`;
       try {
         const listResponse = await fetch(listUrl);
@@ -25,20 +28,24 @@ const AllNFTs = () => {
         });
 
         const details = await Promise.all(detailsPromises);
-        console.log(details);
         setNftDetails(details);
       } catch (error) {
         console.error("Error fetching NFTs:", error);
+      } finally {
+        setIsLoading(false); // Set loading to false when fetch is complete
       }
     };
 
     fetchNFTs();
   }, [apiKey]);
 
+  if (isLoading) {
+    return <MockInterface />;  // Display the mock interface while loading
+  }
+
   return (
     <div className="bg-white rounded-xl p-4 mx-auto my-4">
       <h2 className="text-2xl text-center font-semibold my-8">Trending NFTs</h2>
-      {/* NFT Rows/Cards */}
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 lg:gap-4 max-sm:text-center">
         {nftDetails.map((nft, index) => (
           <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4 md:mb-0">

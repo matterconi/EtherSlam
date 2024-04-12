@@ -6,7 +6,7 @@ function Navbar() {
       <Link to="/" className="text-2xl font-bold">Eth-Ciclopedia</Link>
       <ul className="flex gap-4">
         <li className="hover:text-gray-200 transition-colors duration-200">
-          <a href="/blockchain">Blockchain</a>
+          <a href="/">Blockchain</a>
         </li>
         <li className="hover:text-gray-200 transition-colors duration-200">
         <Link to="/tokens">Tokens</Link>

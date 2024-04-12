@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+/* eslint-disable react/no-unescaped-entities */
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+const formatTimestamp = (timestamp) => {
+  const currentTime = Date.now();
+  const transactionTime = timestamp * 1000; // Assuming timestamp is in seconds and needs conversion to milliseconds
+  const timeDifference = currentTime - transactionTime;
+  const secondsDifference = Math.floor(timeDifference / 1000);
+
+  if (secondsDifference < 60) {
+    return `${secondsDifference} seconds ago`;
+  } else if (secondsDifference < 3600) {
+    const minutes = Math.floor(secondsDifference / 60);
+    return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+  } else if (secondsDifference < 86400) {
+    const hours = Math.floor(secondsDifference / 3600);
+    return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+  } else {
+    const days = Math.floor(secondsDifference / 86400);
+    return `${days} day${days !== 1 ? 's' : ''} ago`;
+  }
+};
 
 // Tooltip Component
 const Tooltip = ({ info, children }) => {
   const [isHovered, setIsHovered] = useState(false);
-
+  
   return (
-    <div className="relative flex items-center"
-         onMouseEnter={() => setIsHovered(true)}
-         onMouseLeave={() => setIsHovered(false)}>
-      <div className="flex justify-center items-center w-4 h-4 text-xs border border-gray-400 mr-2 text-gray-400 rounded-full bg-gray-200">?</div>
+    <div className="relative flex items-center ">
+      <div className="flex justify-center items-center w-4 h-4 text-xs border border-gray-400 mr-2 text-gray-400 rounded-full bg-gray-200" onMouseEnter={() => setIsHovered(true)}
+         onMouseLeave={() => setIsHovered(false)}>?</div>
       {isHovered && (
-        <div className="absolute -left-20 mt-8 w-48 p-2 bg-black text-white text-sm rounded-md z-10">
+        <div className="absolute left-6 w-48 p-2 bg-black text-white text-sm rounded-md z-10">
           {info}
         </div>
       )}
@@ -22,11 +41,16 @@ const Tooltip = ({ info, children }) => {
   );
 };
 
+Tooltip.propTypes = {
+  children: PropTypes.node.isRequired,
+  info: PropTypes.string.isRequired,
+};
+   
 // Divider Component
 const Divider = () => <div className="border-b border-gray-300 my-4 w-full" />;
 
 // DisplayTransaction Component
-const DisplayTransaction = ({ transaction }) => {
+const DisplayTransaction = ({ transaction, timestamp }) => {
   // Helper functions
   const hexToDecimal = (hex) => parseInt(hex, 16);
   const weiToEth = (wei) => wei / 1e18;
@@ -36,7 +60,6 @@ const DisplayTransaction = ({ transaction }) => {
   const transactionValueEth = weiToEth(hexToDecimal(transaction.value));
   const transactionFeeEth = weiToEth(hexToDecimal(transaction.gas) * hexToDecimal(transaction.gasPrice));
   const gasPriceGwei = weiToEth(hexToDecimal(transaction.gasPrice) * 1e9).toFixed(9);
-  const timestamp = transaction.timestamp ? new Date(hexToDecimal(transaction.timestamp) * 1000).toLocaleString() : 'N/A';
 
   return (
     <>
@@ -53,11 +76,13 @@ const DisplayTransaction = ({ transaction }) => {
         </div>
         <div className="flex justify-start items-center">
           <Tooltip info="The block number that includes this transaction.">Block:</Tooltip>
-          <span>{hexToDecimal(transaction.blockNumber)}</span>
+          <span><Link to={`/block/${hexToDecimal(transaction.blockNumber)}`} className="break-all text-blue-500 hover:text-blue-600">
+          {hexToDecimal(transaction.blockNumber)}
+          </Link></span>
         </div>
         <div className="flex justify-start items-center">
           <Tooltip info="The timestamp when the transaction was confirmed.">Timestamp:</Tooltip>
-          <span>{timestamp}</span>
+          <span>{formatTimestamp(timestamp)}</span>
         </div>
         <Divider />
         <div className="flex justify-start items-center">
@@ -109,6 +134,7 @@ const DisplayTransaction = ({ transaction }) => {
 
 DisplayTransaction.propTypes = {
   transaction: PropTypes.object.isRequired,
+  timestamp: PropTypes.number.isRequired,
 };
 
 export default DisplayTransaction;

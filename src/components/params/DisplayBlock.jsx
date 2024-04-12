@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react/no-unescaped-entities */
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
@@ -9,12 +10,11 @@ const Tooltip = ({ info, children }) => {
   
 
   return (
-    <div className="relative flex items-center"
-         onMouseEnter={() => setIsHovered(true)}
-         onMouseLeave={() => setIsHovered(false)}>
-      <div className="flex justify-center items-center w-4 h-4 text-xs border border-gray-400 mr-2 text-gray-400 rounded-full bg-gray-200">?</div>
+    <div className="relative flex items-center ">
+      <div className="flex justify-center items-center w-4 h-4 text-xs border border-gray-400 mr-2 text-gray-400 rounded-full bg-gray-200" onMouseEnter={() => setIsHovered(true)}
+         onMouseLeave={() => setIsHovered(false)}>?</div>
       {isHovered && (
-        <div className="absolute -left-20 mt-8 w-48 p-2 bg-black text-white text-sm rounded-md z-10">
+        <div className="absolute left-6 w-48 p-2 bg-black text-white text-sm rounded-md z-10">
           {info}
         </div>
       )}
@@ -23,6 +23,11 @@ const Tooltip = ({ info, children }) => {
   );
 };
 
+Tooltip.propTypes = {
+  children: PropTypes.node.isRequired,
+  info: PropTypes.string.isRequired,
+};
+   
 const DisplayBlock = ({ block }) => {
   // Converting total fees from Ether string to a readable format
   const totalFeesEth = parseFloat(block.totalFees).toFixed(18);

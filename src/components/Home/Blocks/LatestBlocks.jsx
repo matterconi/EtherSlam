@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useBlockchainData } from '../../../context/useBlockchainData';
 import BlockCard from './BlockCard'; // Ensure this path is correct
+import MockInterface from '../../shared/MockInterface'; // Ensure this path is correct
 import { IoCubeOutline } from 'react-icons/io5';
 
 const LatestBlocks = () => {
@@ -24,7 +25,7 @@ const LatestBlocks = () => {
           />
         ))
       ) : (
-        <div>Loading...</div>
+        <MockInterface />
       )}
       <div className="w-full flex justify-center mt-4">
         <button 

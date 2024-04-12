@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import DisplayAllBlocks from '../components/all/DisplayAllBlocks';
+import MockInterface from '../components/shared/MockInterface';
 import { useBlockchainData } from '../context/useBlockchainData';
 import { fetchRecentBlocks } from '../utils/fetchRecentBlocks';
 
@@ -50,7 +51,7 @@ const AllBlocksPage = () => {
   };
 
   
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <MockInterface />;
 
   return (
     <div>

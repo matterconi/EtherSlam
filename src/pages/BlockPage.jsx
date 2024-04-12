@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DisplayBlock from '../components/params/DisplayBlock'; // Ensure this path is correct
+import MockInterface from '../components/shared/MockInterface'; // Ensure this path is correct
 import { fetchBlock } from '../utils/fetchBlock'; // Adjust the import path as necessary
 
 const BlockPage = () => {
@@ -8,7 +9,7 @@ const BlockPage = () => {
   const [block, setBlock] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
+  console.log(blockNumber);
   useEffect(() => {
     const fetchAndSetBlockData = async () => {
       setLoading(true);
@@ -29,7 +30,7 @@ const BlockPage = () => {
     }
   }, [blockNumber]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <MockInterface />;
   if (error) return <div>Error: {error}</div>;
   if (!block) return <div>No block data found.</div>;
   return (

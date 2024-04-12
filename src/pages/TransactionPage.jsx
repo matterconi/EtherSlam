@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DisplayTransaction from '../components/params/DisplayTransaction'; // Adjust the path as necessary
+import MockInterface from '../components/shared/MockInterface'; // Adjust the path as necessary
 
 const TransactionPage = () => {
   const { transactionHash } = useParams();
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [timestamp, setTimestamp] = useState('');
 
   useEffect(() => {
     const fetchTransactionData = async () => {
@@ -18,7 +20,12 @@ const TransactionPage = () => {
         const response = await fetch(url);
         const data = await response.json();
         if (data.result) {
+          const blockNumberDecimal = parseInt(data.result.blockNumber, 16);  // Convert hex to decimal
+          const blockResponse = await fetch(`https://api.etherscan.io/api?module=block&action=getblockreward&blockno=${blockNumberDecimal}&apikey=${apiKey}`);
+          const blockData = await blockResponse.json();
+          console.log(blockData)
           setTransaction(data.result);
+          setTimestamp(blockData.result.timeStamp);
         } else {
           setError('Transaction not found.');
         }
@@ -35,13 +42,13 @@ const TransactionPage = () => {
     }
   }, [transactionHash]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <MockInterface />;
   if (error) return <div>Error: {error}</div>;
   if (!transaction) return <div>No transaction data found.</div>;
 
   return (
     <div>
-      <DisplayTransaction transaction={transaction} />
+      <DisplayTransaction transaction={transaction} timestamp={timestamp}/>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useBlockchainData } from '../context/useBlockchainData';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DisplayAddress from '../components/params/DisplayAddress'; // Adjust the import path as necessary
+import MockInterface from '../components/shared/MockInterface'; // Adjust the import path as necessary
 
 const AddressPage = () => {
   const latestBlock = useBlockchainData();
@@ -71,7 +72,7 @@ const AddressPage = () => {
     fetchAddressData();
   }, [addressHash, latestBlock]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <MockInterface />;
   if (error) return <div>Error: {error}</div>;
 
   return (

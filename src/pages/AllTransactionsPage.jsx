@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import DisplayAllTransactions from '../components/all/DisplayAllTransactions';
+import MockInterface from '../components/shared/MockInterface';
 import { useBlockchainData } from '../context/useBlockchainData';
 import { fetchRecentBlocks } from '../utils/fetchRecentBlocks';
 
@@ -56,7 +57,7 @@ const AllTransactionPage = () => {
     setCurrentPage(prevPage => Math.max(0, prevPage - 1));
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <MockInterface />;
   if (error) return <div>Error: {error}</div>;
 
   return (

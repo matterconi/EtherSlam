@@ -26,14 +26,15 @@ const formatTimestamp = (timestamp) => {
   }
 };
 
-const DisplayAllTransactions = ({ transactions, timestamp, handlePreviousPage, handleNextPage, page, isLimit }) => {
+const DisplayAllTransactions = ({ transactions, timestamp, handlePreviousPage, handleNextPage, page, isLimit, isBlock = false, transactionsNumber = 0 }) => {
+  const blockNumber = transactions[0].blockNumber;
   return (
     <>
       <div className="p-4 bg-white shadow-lg rounded-lg mb-8">
-        <h2 className="text-xl mb-4">Recent Transactions</h2>
-
+        <h2 className="text-xl text-semibold mx-4 mb-2">Recent Transactions</h2>
+        {isBlock && <p className='mx-4 mb-4'>For block <Link to={`/block/${blockNumber}`} className="text-blue-500">{blockNumber}</Link> (a total of {transactionsNumber} transactions)</p>}
         {/* For larger screens */}
-        <div className="hidden sm:block mt-4">
+        <div className="hidden sm:block mx-4mt-4">
           <div className="grid grid-cols-6 text-sm font-semibold text-gray-700"> {/* Adjust grid to 6 columns */}
             <div className="px-4 py-2">Hash</div>
             <div className="px-4 py-2">Block Number</div>
@@ -107,6 +108,12 @@ const DisplayAllTransactions = ({ transactions, timestamp, handlePreviousPage, h
 DisplayAllTransactions.propTypes = {
   transactions: PropTypes.array.isRequired,
   timestamp: PropTypes.number.isRequired, // Ensure you include timestamp as a propType
+  handlePreviousPage: PropTypes.func.isRequired,
+  handleNextPage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  isLimit: PropTypes.bool.isRequired,
+  isBlock: PropTypes.bool,
+  transactionsNumber: PropTypes.number,
 };
 
 export default DisplayAllTransactions;
